@@ -1,9 +1,9 @@
 {
     "id": "addon-watchlist",
     "name": "Player Watchlist",
-    "description": "Monitor players with a watchlist. Staff get real-time alerts when a watched player joins the server.",
+    "description": "Monitor players with a watchlist.",
     "version": "1.0.0",
-    "author": "fxPanel Community",
+    "author": "entytaiment25",
     "license": "MIT",
     "fxpanel": {
         "minVersion": "0.1.0-Beta"
