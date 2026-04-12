@@ -6,7 +6,7 @@
     "author": "entytaiment25",
     "license": "MIT",
     "fxpanel": {
-        "minVersion": "0.1.0-Beta"
+        "minVersion": "0.1.1-Beta"
     },
     "permissions": {
         "required": ["storage", "ws.push", "players.tags", "players.write"],
