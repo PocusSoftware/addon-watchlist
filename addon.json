@@ -1,0 +1,46 @@
+{
+    "id": "addon-watchlist",
+    "name": "Player Watchlist",
+    "description": "Monitor players with a watchlist. Staff get real-time alerts when a watched player joins the server.",
+    "version": "1.0.0",
+    "author": "fxPanel Community",
+    "license": "MIT",
+    "fxpanel": {
+        "minVersion": "0.1.0-Beta"
+    },
+    "permissions": {
+        "required": ["storage", "ws.push", "players.tags", "players.write"],
+        "optional": []
+    },
+    "server": {
+        "entry": "server/index.js"
+    },
+    "panel": {
+        "entry": "panel/index.js",
+        "pages": [
+            {
+                "path": "/watchlist",
+                "title": "Watchlist",
+                "icon": "Eye",
+                "sidebar": true,
+                "sidebarGroup": "Players",
+                "permission": "players.read",
+                "component": "WatchlistPage"
+            }
+        ],
+        "widgets": [
+            {
+                "slot": "player-modal.tabs",
+                "component": "WatchlistPlayerModal",
+                "title": "Watchlist"
+            },
+            {
+                "slot": "dashboard.main",
+                "component": "WatchlistDashboardWidget",
+                "title": "Watchlist Activity",
+                "defaultSize": "half",
+                "permission": "players.read"
+            }
+        ]
+    }
+}
