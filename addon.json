@@ -9,7 +9,7 @@
         "minVersion": "0.1.1-Beta"
     },
     "permissions": {
-        "required": ["storage", "ws.push", "players.tags", "players.write"],
+        "required": ["storage", "ws.push", "players.read", "players.write"],
         "optional": []
     },
     "server": {
