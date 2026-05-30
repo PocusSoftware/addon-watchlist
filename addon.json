@@ -2,11 +2,11 @@
     "id": "addon-watchlist",
     "name": "Player Watchlist",
     "description": "Monitor players with a watchlist.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": "entytaiment25",
     "license": "MIT",
     "fxpanel": {
-        "minVersion": "0.1.1-Beta"
+        "minVersion": "0.3.0-Beta"
     },
     "permissions": {
         "required": ["storage", "ws.push", "players.read", "players.write"],
@@ -24,7 +24,7 @@
                 "icon": "Eye",
                 "sidebar": true,
                 "sidebarGroup": "Players",
-                "permission": "players.read",
+                "permission": "players.reports",
                 "component": "WatchlistPage"
             }
         ],
@@ -39,7 +39,7 @@
                 "component": "WatchlistDashboardWidget",
                 "title": "Watchlist Activity",
                 "defaultSize": "half",
-                "permission": "players.read"
+                "permission": "players.reports"
             }
         ]
     }

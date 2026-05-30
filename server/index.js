@@ -4,6 +4,12 @@ const addon = createAddon();
 
 const MAX_ACTIVITY = 50;
 const onlineWatched = new Map();
+const ADMIN_VIEW_PERMISSION = 'players.reports';
+const ADMIN_MANAGE_PERMISSION = 'players.warn';
+
+function hasAdminPermission(req, permission) {
+    return req.admin.hasPermission(permission) || req.admin.hasPermission('all_permissions');
+}
 
 async function getWatchlist() {
     return (await addon.storage.get('watchlist')) || [];
@@ -58,16 +64,16 @@ addon.on('playerLeaving', async (data) => {
 });
 
 addon.registerRoute('GET', '/watchlist', async (req) => {
-    if (!req.admin.hasPermission('players.read')) {
-        return { status: 403, body: { error: 'Requires players.read' } };
+    if (!hasAdminPermission(req, ADMIN_VIEW_PERMISSION)) {
+        return { status: 403, body: { error: `Requires admin permission: ${ADMIN_VIEW_PERMISSION} (or all_permissions)` } };
     }
     const watchlist = await getWatchlist();
     return { status: 200, body: { watchlist } };
 });
 
 addon.registerRoute('GET', '/watchlist/:license', async (req) => {
-    if (!req.admin.hasPermission('players.read')) {
-        return { status: 403, body: { error: 'Requires players.read' } };
+    if (!hasAdminPermission(req, ADMIN_VIEW_PERMISSION)) {
+        return { status: 403, body: { error: `Requires admin permission: ${ADMIN_VIEW_PERMISSION} (or all_permissions)` } };
     }
     const watchlist = await getWatchlist();
     const entry = watchlist.find((e) => e.license === req.params.license) || null;
@@ -75,8 +81,8 @@ addon.registerRoute('GET', '/watchlist/:license', async (req) => {
 });
 
 addon.registerRoute('GET', '/watchlist/status', async (req) => {
-    if (!req.admin.hasPermission('players.read')) {
-        return { status: 403, body: { error: 'Requires players.read' } };
+    if (!hasAdminPermission(req, ADMIN_VIEW_PERMISSION)) {
+        return { status: 403, body: { error: `Requires admin permission: ${ADMIN_VIEW_PERMISSION} (or all_permissions)` } };
     }
     const watchlist = await getWatchlist();
     const statusList = watchlist.map((entry) => ({
@@ -88,8 +94,8 @@ addon.registerRoute('GET', '/watchlist/status', async (req) => {
 });
 
 addon.registerRoute('POST', '/watchlist', async (req) => {
-    if (!req.admin.hasPermission('players.write')) {
-        return { status: 403, body: { error: 'Requires players.write' } };
+    if (!hasAdminPermission(req, ADMIN_MANAGE_PERMISSION)) {
+        return { status: 403, body: { error: `Requires admin permission: ${ADMIN_MANAGE_PERMISSION} (or all_permissions)` } };
     }
 
     const { license, displayName, reason } = req.body || {};
@@ -124,8 +130,8 @@ addon.registerRoute('POST', '/watchlist', async (req) => {
 });
 
 addon.registerRoute('DELETE', '/watchlist/:license', async (req) => {
-    if (!req.admin.hasPermission('players.write')) {
-        return { status: 403, body: { error: 'Requires players.write' } };
+    if (!hasAdminPermission(req, ADMIN_MANAGE_PERMISSION)) {
+        return { status: 403, body: { error: `Requires admin permission: ${ADMIN_MANAGE_PERMISSION} (or all_permissions)` } };
     }
 
     const watchlist = await getWatchlist();
@@ -149,8 +155,8 @@ addon.registerRoute('DELETE', '/watchlist/:license', async (req) => {
 });
 
 addon.registerRoute('GET', '/activity', async (req) => {
-    if (!req.admin.hasPermission('players.read')) {
-        return { status: 403, body: { error: 'Requires players.read' } };
+    if (!hasAdminPermission(req, ADMIN_VIEW_PERMISSION)) {
+        return { status: 403, body: { error: `Requires admin permission: ${ADMIN_VIEW_PERMISSION} (or all_permissions)` } };
     }
     const activity = await getActivity();
     return { status: 200, body: { activity } };
@@ -158,7 +164,7 @@ addon.registerRoute('GET', '/activity', async (req) => {
 
 addon.registerRoute('DELETE', '/activity', async (req) => {
     if (!req.admin.hasPermission('all_permissions')) {
-        return { status: 403, body: { error: 'Requires all_permissions' } };
+        return { status: 403, body: { error: 'Requires admin permission: all_permissions' } };
     }
     await addon.storage.set('activity', []);
     addon.log.info(`[WATCHLIST] Activity log cleared by ${req.admin.name}`);

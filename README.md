@@ -12,3 +12,9 @@ Before using the addon, add a Player Tag in **Settings → Player Tags**:
 | Label    | `On Watchlist` |
 | Color    | use a Brighter Color |
 | Priority | `1`            |
+
+Admins using the addon need fxPanel admin permissions:
+- `players.reports` to view watchlist data and activity
+- `players.warn` to add/remove players from watchlist
+- `all_permissions` to clear the activity log
+- `all_permissions` also works as an override
